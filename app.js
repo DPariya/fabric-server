@@ -3,7 +3,8 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+require("dotenv").config();
+// console.log(process.env);
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const mongoose = require("mongoose");
@@ -11,14 +12,18 @@ const mongoose = require("mongoose");
 var app = express();
 console.log("process.env.MONGODB_URI", process.env.MONGODB_URL);
 //  mondodb connect
-mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
-
+// mongoose.set("strictQuery", false);
+// mongoose
+//   .connect(process.env.MONGODB_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("MongoDB connected"))
+//   .catch((err) => console.log(err));
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGODB_URL, () => {
+  console.log("Connected to MongoDB");
+});
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
